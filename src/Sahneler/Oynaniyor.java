@@ -28,7 +28,7 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 	private KuleYoneticisi kuleYoneticisi;
 	private FuzeYoneticisi FuzeYoneticisi;
 	private DalgaYoneticisi dalgaYoneticisi;
-	private Yol Baslangic, end;
+	private Yol Baslangic, Bitis;
 	private Kule seciliKule;
 	private int altınTick;
 	private boolean oyunDurdu;
@@ -38,7 +38,7 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 		yukleStandartLevel();
 
 		aksiyonBari = new AksiyonBari(0, 640, 640, 160, this);
-		DusmanYoneticisi = new DusmanYoneticisi(this, Baslangic, end);
+		DusmanYoneticisi = new DusmanYoneticisi(this, Baslangic, Bitis);
 		kuleYoneticisi = new KuleYoneticisi(this);
 		FuzeYoneticisi = new FuzeYoneticisi(this);
 		dalgaYoneticisi = new DalgaYoneticisi(this);
@@ -48,7 +48,7 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 		lvl = YukleKaydet.GetLevelData("new_level");
 		ArrayList<Yol> puanlar = YukleKaydet.GetLevelyolpuanlari("new_level");
 		Baslangic = puanlar.get(0);
-		end = puanlar.get(1);
+		Bitis = puanlar.get(1);
 	}
 
 	public void setLevel(int[][] lvl) {
@@ -179,26 +179,6 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 
 	@Override
 	public void mouseClicked(int x, int y) {
-		if (y >= 640)
-			aksiyonBari.mouseClicked(x, y);
-		else {
-			
-			if (seciliKule != null) {
-				if (KaroCimenMi(mouseX, mouseY)) {
-					if (getKuleAt(mouseX, mouseY) == null) {
-						kuleYoneticisi.addKule(seciliKule, mouseX, mouseY);
-
-						altındusur(seciliKule.getKuleTipi());
-
-						seciliKule = null;
-
-					}
-				}
-			} else {
-				Kule t = getKuleAt(mouseX, mouseY);
-				aksiyonBari.gosterKule(t);
-			}
-		}
 	}
 
 	private void altındusur(int KuleTipi) {
@@ -266,15 +246,15 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 		aksiyonBari.addaltın(Yardimcilar.Sabitler.Dusmanlar.GetOdul(Dusmantipi));
 	}
 
-	public KuleYoneticisi getKuleManager() {
+	public KuleYoneticisi getKuleYoneticisi() {
 		return kuleYoneticisi;
 	}
 
-	public DusmanYoneticisi getdusmanManger() {
+	public DusmanYoneticisi getDusmanYoneticisi() {
 		return DusmanYoneticisi;
 	}
 
-	public DalgaYoneticisi getWaveManager() {
+	public DalgaYoneticisi getDalgaYoneticisi() {
 		return dalgaYoneticisi;
 	}
 
@@ -306,8 +286,26 @@ public class Oynaniyor extends OyunEkrani implements SahneMethotlari {
 
 	@Override
 	public void mousePressed(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		if (y >= 640)
+			aksiyonBari.mousePressed(x, y);
+		else {
+
+			if (seciliKule != null) {
+				if (KaroCimenMi(mouseX, mouseY)) {
+					if (getKuleAt(mouseX, mouseY) == null) {
+						kuleYoneticisi.addKule(seciliKule, mouseX, mouseY);
+
+						altındusur(seciliKule.getKuleTipi());
+
+						seciliKule = null;
+
+					}
+				}
+			} else {
+				Kule t = getKuleAt(mouseX, mouseY);
+				aksiyonBari.gosterKule(t);
+			}
+		}
 	}
 
 	@Override

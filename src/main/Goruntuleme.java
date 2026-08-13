@@ -19,7 +19,7 @@ public class Goruntuleme {
 			game.getOynaniyor().render(g);
 			break;
 		case DUZENLE:
-			game.getDUZENLEor().render(g);
+			game.getDuzenleme().render(g);
 			break;
 		case OYUN_BITTI:
 			game.getOyunBitti().render(g);

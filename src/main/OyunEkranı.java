@@ -4,14 +4,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
-import Girdiler.KeyBoardListener;
-import Girdiler.MouseListener;
+import Girdiler.KlavyeDinleyici;
+import Girdiler.FareDinleyici;
 
 public class OyunEkranı extends JPanel {
 	private Game game;
 	private Dimension Boyut;
-	private MouseListener MouseListener;
-	private KeyBoardListener KeyBoardListener;
+	private FareDinleyici fareDinleyici;
+	private KlavyeDinleyici klavyeDinleyici;
 
 	public OyunEkranı(Game game) {
 		this.game = game;
@@ -19,12 +19,12 @@ public class OyunEkranı extends JPanel {
 		setPanelSize();
 	}
 	public void BaslangicGirdileri() {
-		MouseListener = new MouseListener(game);
-		KeyBoardListener = new KeyBoardListener(game);
+		fareDinleyici = new FareDinleyici(game);
+		klavyeDinleyici = new KlavyeDinleyici(game);
 
-		addMouseListener((java.awt.event.MouseListener) MouseListener);
-		addMouseMotionListener(MouseListener);
-		addKeyListener(KeyBoardListener);
+		addMouseListener(fareDinleyici);
+		addMouseMotionListener(fareDinleyici);
+		addKeyListener(klavyeDinleyici);
 		requestFocus();
 	}
 

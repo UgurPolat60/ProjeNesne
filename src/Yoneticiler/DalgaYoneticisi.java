@@ -8,88 +8,88 @@ import Sahneler.Oynaniyor;
 public class DalgaYoneticisi {
 
 	private Oynaniyor oynaniyor;
-	private ArrayList<Dalga> waves = new ArrayList<>();
+	private ArrayList<Dalga> dalgalar = new ArrayList<>();
 	private int dusmancanlandirTickLimit = 60 * 1;
 	private int dusmancanlandirTick = dusmancanlandirTickLimit;
-	private int dusmanIndex, waveIndex;
-	private int waveTickLimit = 60 * 5;
-	private int waveTick = 0;
-	private boolean waveBaslangicTimer, waveTickTimerOver;
+	private int dusmanIndex, dalgaIndeksi;
+	private int dalgaTickLimit = 60 * 5;
+	private int dalgaTick = 0;
+	private boolean dalgaBaslangicTimer, dalgaTickTimerOver;
 	public DalgaYoneticisi(Oynaniyor oynaniyor) {
 		this.oynaniyor = oynaniyor;
-		olusturWaves();
+		olusturDalgalar();
 	}
 	public void Yukseltme() {
 		if (dusmancanlandirTick < dusmancanlandirTickLimit)
 			dusmancanlandirTick++;
 
-		if (waveBaslangicTimer) {
-			waveTick++;
-			if (waveTick >= waveTickLimit) {
-				waveTickTimerOver = true;
+		if (dalgaBaslangicTimer) {
+			dalgaTick++;
+			if (dalgaTick >= dalgaTickLimit) {
+				dalgaTickTimerOver = true;
 	     	}
 		}
 	}
 	public void DalgaIndeksiniArttır() {
-		waveIndex++;
-		waveTick = 0;
-		waveTickTimerOver = false;
-		waveBaslangicTimer = false;
+		dalgaIndeksi++;
+		dalgaTick = 0;
+		dalgaTickTimerOver = false;
+		dalgaBaslangicTimer = false;
 	}
 	public boolean DalgaZamanayiciBittiMi() {
-		return waveTickTimerOver;
+		return dalgaTickTimerOver;
 	}
 	public void BaslangicDalgaZamanlayici() {
-		waveBaslangicTimer = true;
+		dalgaBaslangicTimer = true;
 	}
 	public int getsonrakidusman() {
 		dusmancanlandirTick = 0;
-		return waves.get(waveIndex).getdusmanliste().get(dusmanIndex++);
+		return dalgalar.get(dalgaIndeksi).getdusmanliste().get(dusmanIndex++);
 	}
-	private void olusturWaves() {
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1))));
-		waves.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 1))));
+	private void olusturDalgalar() {
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1))));
+		dalgalar.add(new Dalga(new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0, 1, 1, 1, 1))));
 	}
-	public ArrayList<Dalga> getWaves() {
-		return waves;
+	public ArrayList<Dalga> getDalgalar() {
+		return dalgalar;
 	}
 	public boolean YeniDusmanZamaniMi() {
 		return dusmancanlandirTick >= dusmancanlandirTickLimit;
 	}
 	public boolean DalgadaDahaDusmanVarMi() {
-		return dusmanIndex < waves.get(waveIndex).getdusmanliste().size();
+		return dusmanIndex < dalgalar.get(dalgaIndeksi).getdusmanliste().size();
 	}
 	public boolean DahaDalgaVarmı() {
-		return waveIndex + 1 < waves.size();
+		return dalgaIndeksi + 1 < dalgalar.size();
 	}
 	public void SıfırladusmanIndex() {
 		dusmanIndex = 0;
 	}
-	public int getWaveIndex() {
-		return waveIndex;
+	public int getDalgaIndeksi() {
+		return dalgaIndeksi;
 	}
-	public float getTimeSOL() {
-		float ticksSOL = waveTickLimit - waveTick;
-		return ticksSOL / 60.0f;
+	public float getKalanSure() {
+		float kalanTick = dalgaTickLimit - dalgaTick;
+		return kalanTick / 60.0f;
 	}
-	public boolean isDalgaZamanlayiciBaslangiced() {
-		return waveBaslangicTimer;
+	public boolean isDalgaZamanlayiciBasladiMi() {
+		return dalgaBaslangicTimer;
 	}
 	public void Sıfırla() {
-		waves.clear();
-		olusturWaves();
+		dalgalar.clear();
+		olusturDalgalar();
 		dusmanIndex = 0;
-		waveIndex = 0;
-		waveBaslangicTimer = false;
-		waveTickTimerOver = false;
-		waveTick = 0;
+		dalgaIndeksi = 0;
+		dalgaBaslangicTimer = false;
+		dalgaTickTimerOver = false;
+		dalgaTick = 0;
 		dusmancanlandirTick = dusmancanlandirTickLimit;
 	}
 

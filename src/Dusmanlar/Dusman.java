@@ -14,7 +14,7 @@ public abstract class Dusman {
 	protected int maxCan;
 	protected int ID;
 	protected int Dusmantipi;
-	protected int endDizin;
+	protected int sonDizin;
 	protected boolean Yasiyor = true;
 	protected int YavasTickLimiti = 120;
 	protected int YavasTick = YavasTickLimiti;
@@ -26,7 +26,7 @@ public abstract class Dusman {
 		this.Dusmantipi = Dusmantipi;
 		this.DusmanYoneticisi = DusmanYoneticisi;
 		Sinirlar = new Rectangle((int) x, (int) y, 32, 32);
-		endDizin = -1;
+		sonDizin = -1;
 		setBaslangicCan();
 	}
 
@@ -49,7 +49,7 @@ public abstract class Dusman {
 		YavasTick = 0;
 	}
    public void hareket(float Hız, int dir) {
-		endDizin = dir;
+		sonDizin = dir;
 
 		if (YavasTick < YavasTickLimiti) {
 			YavasTick++;
@@ -69,10 +69,10 @@ public abstract class Dusman {
 			this.y += Hız;
 			break;
 		}
-		YUKARIyonluHitbox();
+		HitboxGuncelle();
 	}
 
-	private void YUKARIyonluHitbox() {
+	private void HitboxGuncelle() {
 		Sinirlar.x = (int) x;
 		Sinirlar.y = (int) y;
 	}
@@ -111,8 +111,8 @@ public abstract class Dusman {
 		return Dusmantipi;
 	}
 
-	public int getendDizin() {
-		return endDizin;
+	public int getSonDizin() {
+		return sonDizin;
 	}
 
 	public boolean Yasiyormu() {

@@ -17,7 +17,7 @@ import Sahneler.Oynaniyor;
 import Yardimcilar.Sabitler.Dusmanlar;
 import Yardimcilar.YukleKaydet;
 import Dusmanlar.Dusman;
-import Dusmanlar.Orc;
+import Dusmanlar.Ork;
 
 
 public class DusmanYoneticisi {
@@ -26,15 +26,15 @@ public class DusmanYoneticisi {
 	private Oynaniyor oynaniyor;
 	private BufferedImage[] dusmanfotos;
 	private ArrayList<Dusman> Dusmanlar= new ArrayList<>();
-	private Yol Baslangic, end;
+	private Yol Baslangic, Bitis;
 	private int HPbarWidth = 20;
 	private BufferedImage yavasEffect;
 
-	public DusmanYoneticisi(Oynaniyor oynaniyor, Yol Baslangic, Yol end) {
+	public DusmanYoneticisi(Oynaniyor oynaniyor, Yol Baslangic, Yol Bitis) {
 		this.oynaniyor = oynaniyor;
 		dusmanfotos = new BufferedImage[4];
 		this.Baslangic = Baslangic;
-		this.end = end;
+		this.Bitis = Bitis;
 
 		yukleEffectfoto();
 		yukledusmanfotos();
@@ -60,15 +60,15 @@ public class DusmanYoneticisi {
 	}
 
 	public void Yukseltmedusmanhareket(Dusman e) {
-		if (e.getendDizin() == -1)
+		if (e.getSonDizin() == -1)
 			setNewYonAndhareket(e);
 
-		int newX = (int) (e.getX() + getHızAndWidth(e.getendDizin(), e.getDusmantipi()));
-		int newY = (int) (e.getY() + getHızAndHeight(e.getendDizin(), e.getDusmantipi()));
+		int newX = (int) (e.getX() + getHızAndWidth(e.getSonDizin(), e.getDusmantipi()));
+		int newY = (int) (e.getY() + getHızAndHeight(e.getSonDizin(), e.getDusmantipi()));
 
 		if (getKaroTipi(newX, newY) == YOL_KAROSU) {
-			e.hareket(GetHız(e.getDusmantipi()), e.getendDizin());
-		} else if (isAtend(e)) {
+			e.hareket(GetHız(e.getDusmantipi()), e.getSonDizin());
+		} else if (isBitisteMi(e)) {
 			e.Oldu();
 			oynaniyor.canidusur();
 		} else {
@@ -77,14 +77,14 @@ public class DusmanYoneticisi {
 	}
 
 	private void setNewYonAndhareket(Dusman e) {
-		int dir = e.getendDizin();
+		int dir = e.getSonDizin();
 
 		int xKord = (int) (e.getX() / 32);
 		int yKord = (int) (e.getY() / 32);
 
 		fixdusmanOffsetTile(e, dir, xKord, yKord);
 
-		if (isAtend(e))
+		if (isBitisteMi(e))
 			return;
 
 		if (dir == SOL || dir == SAG) {
@@ -120,9 +120,9 @@ public class DusmanYoneticisi {
 
 	}
 
-	private boolean isAtend(Dusman e) {
-		if (e.getX() == end.getxKord() * 32)
-			if (e.getY() == end.getyKord() * 32)
+	private boolean isBitisteMi(Dusman e) {
+		if (e.getX() == Bitis.getxKord() * 32)
+			if (e.getY() == Bitis.getyKord() * 32)
 				return true;
 		return false;
 	}
@@ -159,8 +159,8 @@ public class DusmanYoneticisi {
 		int y = Baslangic.getyKord() * 32;
 
 		switch (Dusmantipi) {
-		case ORC:
-			Dusmanlar.add(new Orc(x, y, 0, this));
+		case ORK:
+			Dusmanlar.add(new Ork(x, y, 0, this));
 			break;
 		case YARASA:
 			Dusmanlar.add(new Yarasa(x, y, 0, this));
@@ -204,7 +204,7 @@ public class DusmanYoneticisi {
 		return Dusmanlar;
 	}
 
-	public int getAmountOfYasiyorDusmanlar() {
+	public int getYasiyorDusmanSayisi() {
 		int Boyut = 0;
 		for (Dusman e : Dusmanlar)
 			if (e.Yasiyormu())

@@ -98,13 +98,13 @@ public class Sabitler {
 
 	public static class Dusmanlar {
 
-		public static final int ORC = 0;
+		public static final int ORK = 0;
 		public static final int YARASA = 1;
 		
 
 		public static int GetOdul(int Dusmantipi) {
 			switch (Dusmantipi) {
-			case ORC:
+			case ORK:
 				return 5;
 			case YARASA:
 				return 5;
@@ -115,7 +115,7 @@ public class Sabitler {
 
 		public static float GetHız(int Dusmantipi) {
 			switch (Dusmantipi) {
-			case ORC:
+			case ORK:
 				return 0.5f;
 			case YARASA:
 				return 0.7f;
@@ -126,7 +126,7 @@ public class Sabitler {
 
 		public static int GetBaslangicCan(int Dusmantipi) {
 			switch (Dusmantipi) {
-			case ORC:
+			case ORK:
 				return 85;
 			case YARASA:
 				return 100;

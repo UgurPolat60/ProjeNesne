@@ -1,8 +1,8 @@
 package main;
 
 import javax.swing.JFrame;
-import Girdiler.KeyBoardListener;
-import Girdiler.MouseListener;
+import Girdiler.KlavyeDinleyici;
+import Girdiler.FareDinleyici;
 import Sahneler.Duzenleme;
 import Sahneler.Menu;
 import Sahneler.Oynaniyor;
@@ -13,7 +13,7 @@ import Yoneticiler.HaritaYoneticisi;
 
 public class Game extends JFrame implements Runnable {
 
-	private static final long ZamanBasınaYukseltme = 0;
+	private static final long ZamanBasınaYukseltme = 1_000_000_000L / 60; // saniyede 60 güncelleme: dalga/gecikme sayaçları (60*3, 60*5...) bu hıza göre ayarlı
 	private OyunEkranı oyunEkranı;
 	private Thread gameThread;
 	private Goruntuleme goruntuleme;
@@ -32,7 +32,7 @@ public class Game extends JFrame implements Runnable {
 		setStandartCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setTitle("Your Game");
+		setTitle("Oyunum");
 		add(oyunEkranı);
 		pack();
 		setVisible(true);
@@ -40,8 +40,7 @@ public class Game extends JFrame implements Runnable {
 	}
 
 	private void setStandartCloseOperation(int exitOnClose) {
-		// TODO Auto-generated method stub
-		
+		setDefaultCloseOperation(exitOnClose);
 	}
 
 	private void olusturStandartLevel() {
@@ -98,21 +97,17 @@ public class Game extends JFrame implements Runnable {
 	public void run() {
 
 		
-		long sonframe = System.nanoTime();
 		long SonYukseltme = System.nanoTime();
-		long SonZamanKontrolu = System.currentTimeMillis();
-		
 		long now;
 
 		while (true) {
 			now = System.nanoTime();
-			
+
 			if (now - SonYukseltme >= ZamanBasınaYukseltme) {
 				GuncelleOyun();
+				oyunEkranı.repaint();
 				SonYukseltme = now;
-							}
-
-		
+			}
 		}
 
 	}
@@ -130,7 +125,7 @@ public class Game extends JFrame implements Runnable {
 	}
 
 
-	public Duzenleme getDUZENLEor() {
+	public Duzenleme getDuzenleme() {
 		return duzenleme;
 	}
 

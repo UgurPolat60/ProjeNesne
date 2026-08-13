@@ -19,7 +19,7 @@ public class YukleKaydet {
 
 	public static BufferedImage resimal() {
 		BufferedImage foto = null;
-		InputStream is = YukleKaydet.class.getClassLoader().getResourceAsStream("karakteratlas.png");
+		InputStream is = YukleKaydet.class.getClassLoader().getResourceAsStream("spriteatlas.png");
 
 		try {
 			foto = ImageIO.read(is);
@@ -43,7 +43,7 @@ public class YukleKaydet {
 	public static void olusturLevel(String Isim, int[] iddizi) {
 		File newLevel = new File("res/" + Isim + ".txt");
 		if (newLevel.exists()) {
-			System.out.println("File: " + Isim + " already exists!");
+			System.out.println("Dosya: " + Isim + " zaten var!");
 			return;
 		} else {
 			try {
@@ -57,15 +57,15 @@ public class YukleKaydet {
 
 	}
 
-	private static void WriteToFile(File f, int[] iddizi, Yol Baslangic, Yol end) {
+	private static void WriteToFile(File f, int[] iddizi, Yol Baslangic, Yol Bitis) {
 		try {
 			PrintWriter pw = new PrintWriter(f);
 			for (Integer i : iddizi)
 				pw.println(i);
 			pw.println(Baslangic.getxKord());
 			pw.println(Baslangic.getyKord());
-			pw.println(end.getxKord());
-			pw.println(end.getyKord());
+			pw.println(Bitis.getxKord());
+			pw.println(Bitis.getyKord());
 
 			pw.close();
 		} catch (FileNotFoundException e) {
@@ -74,13 +74,13 @@ public class YukleKaydet {
 
 	}
 
-	public static void kaydetLevel(String Isim, int[][] iddizi, Yol Baslangic, Yol end) {
+	public static void kaydetLevel(String Isim, int[][] iddizi, Yol Baslangic, Yol Bitis) {
 		File levelFile = new File("res/" + Isim + ".txt");
 
 		if (levelFile.exists()) {
-			WriteToFile(levelFile, Yardim.IkiDden1DeIntDiziAl(iddizi), Baslangic, end);
+			WriteToFile(levelFile, Yardim.IkiDden1DeIntDiziAl(iddizi), Baslangic, Bitis);
 		} else {
-			System.out.println("File: " + Isim + " does not exists! ");
+			System.out.println("Dosya: " + Isim + " bulunamadi!");
 			return;
 		}
 	}
@@ -116,7 +116,7 @@ public class YukleKaydet {
 			return puanlar;
 
 		} else {
-			System.out.println("File: " + Isim + " does not exists! ");
+			System.out.println("Dosya: " + Isim + " bulunamadi!");
 			return null;
 		}
 	}
@@ -129,7 +129,7 @@ public class YukleKaydet {
 			return Yardim.ArrayListTo2Dint(liste, 20, 20);
 
 		} else {
-			System.out.println("File: " + Isim + " does not exists! ");
+			System.out.println("Dosya: " + Isim + " bulunamadi!");
 			return null;
 		}
 

@@ -20,7 +20,7 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 	private int SonKaroX, SonKaroY, SonKaroId;
 	private boolean drawSelect;
 	private EsyaBari esyaBari;
-	private Yol Baslangic, end;
+	private Yol Baslangic, Bitis;
 
 	public Duzenleme(Game game) {
 		super(game);
@@ -32,7 +32,7 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 		lvl = YukleKaydet.GetLevelData("new_level");
 		ArrayList<Yol> puanlar = YukleKaydet.GetLevelyolpuanlari("new_level");
 		Baslangic = puanlar.get(0);
-		end = puanlar.get(1);
+		Bitis = puanlar.get(1);
 	}
 
 	public void Yukseltme() {
@@ -51,10 +51,10 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 
 	private void drawyolpuanlari(Graphics g) {
 		if (Baslangic != null)
-			g.drawImage(esyaBari.getBaslangicPathfoto(), Baslangic.getxKord() * 32, Baslangic.getyKord() * 32, 32, 32, null);
+			g.drawImage(esyaBari.getBaslangicYolFoto(), Baslangic.getxKord() * 32, Baslangic.getyKord() * 32, 32, 32, null);
 
-		if (end != null)
-			g.drawImage(esyaBari.getendPathfoto(), end.getxKord() * 32, end.getyKord() * 32, 32, 32, null);
+		if (Bitis != null)
+			g.drawImage(esyaBari.getBitisYolFoto(), Bitis.getxKord() * 32, Bitis.getyKord() * 32, 32, 32, null);
 
 	}
 
@@ -78,7 +78,7 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 
 	public void kaydetLevel() {
 
-		YukleKaydet.kaydetLevel("new_level", lvl, Baslangic, end);
+		YukleKaydet.kaydetLevel("new_level", lvl, Baslangic, Bitis);
 		game.getOynaniyor().setLevel(lvl);
 
 	}
@@ -108,7 +108,7 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 					if (SeciliKaro.getId() == -1)
 						Baslangic = new Yol(tileX, tileY);
 					else
-						end = new Yol(tileX, tileY);
+						Bitis = new Yol(tileX, tileY);
 				}
 			}
 		}
@@ -116,12 +116,6 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 
 	@Override
 	public void mouseClicked(int x, int y) {
-		if (y >= 640) {
-			esyaBari.mouseClicked(x, y);
-		} else {
-			KaroDegistir(mouseX, mouseY);
-		}
-
 	}
 
 	@Override
@@ -141,9 +135,9 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 	@Override
 	public void mouseClicked1 (int x, int y) {
 		if (y >= 640)
-			esyaBari.mouseClicked(x, y);
+			esyaBari.mousePressed(x, y);
 
-	} 
+	}
 
 	@Override
 	public void mouseReleased(int x, int y) {
@@ -163,14 +157,18 @@ public class Duzenleme extends OyunEkrani implements SahneMethotlari {
 
 	public void TusaBasildi(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_R)
-			esyaBari.rotatekarakter();
+			esyaBari.karakterDondur();
 	}
 
 
 	@Override
 	public void mousePressed(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		if (y >= 640) {
+			esyaBari.mousePressed(x, y);
+		} else {
+			KaroDegistir(mouseX, mouseY);
+		}
+
 	}
 
 }

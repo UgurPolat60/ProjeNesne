@@ -14,7 +14,7 @@ public class KuleYoneticisi {
 	private Oynaniyor oynaniyor;
 	private BufferedImage[] Kulefotos;
 	private ArrayList<Kule> Kuleler = new ArrayList<>();
-	private int KuleAmount = 0;
+	private int KuleSayisi = 0;
 
 	public KuleYoneticisi(Oynaniyor oynaniyor) {
 		this.oynaniyor = oynaniyor;
@@ -28,7 +28,7 @@ public class KuleYoneticisi {
 	}
 
 	public void addKule(Kule seciliKule, int xPos, int yPos) {
-		Kuleler.add(new Kule(xPos, yPos, KuleAmount++, seciliKule.getKuleTipi()));
+		Kuleler.add(new Kule(xPos, yPos, KuleSayisi++, seciliKule.getKuleTipi()));
 	}
 
 	public void KuleKaldır(Kule gosterlimisKule) {
@@ -45,11 +45,11 @@ public class KuleYoneticisi {
 	public void Yukseltme() {
 		for (Kule t : Kuleler) {
 			t.Yukseltme();
-			attackdusmanIfClose(t);
+			yakindusmanaSaldir(t);
 		}
 	}
-	private void attackdusmanIfClose(Kule t) {
-		for (Dusman e : oynaniyor.getdusmanManger().getDusmanlar()) {
+	private void yakindusmanaSaldir(Kule t) {
+		for (Dusman e : oynaniyor.getDusmanYoneticisi().getDusmanlar()) {
 			if (e.Yasiyormu())
 				if (isdusmanInmesafe(t, e)) {
 					if (t.isBeklemeSuresiOver()) {
@@ -84,7 +84,7 @@ public class KuleYoneticisi {
 	}
 	public void Sıfırla() {
 		Kuleler.clear();
-		KuleAmount = 0;
+		KuleSayisi = 0;
 	}
 
 }

@@ -14,7 +14,7 @@ import Yardimcilar.Sabitler.Kuleler;
 public class AksiyonBari extends Bar {
 
 	private Oynaniyor oynaniyor;
-	private Buton bMenu, bPause;
+	private Buton bMenu, bDuraklat;
 	private Buton[] KuleButonlar;
 	private Kule seciliKule;
 	private Kule gosterlimisKule;
@@ -44,8 +44,8 @@ public class AksiyonBari extends Bar {
 
 	private void initButonlar() {
 
-		bMenu = new Buton("Menu", 2, 642, 100, 30);
-		bPause = new Buton("Pause", 2, 682, 100, 30);
+		bMenu = new Buton("Menü", 2, 642, 100, 30);
+		bDuraklat = new Buton("Duraklat", 2, 682, 100, 30);
 
 		KuleButonlar = new Buton[3];
 
@@ -71,12 +71,12 @@ public class AksiyonBari extends Bar {
 
 	private void Butonciz(Graphics g) {
 		bMenu.draw(g);
-		bPause.draw(g);
+		bDuraklat.draw(g);
 
 		for (Buton b : KuleButonlar) {
 			g.setColor(Color.gray);
 			g.fillRect(b.x, b.y, b.width, b.height);
-			g.drawImage(oynaniyor.getKuleManager().getKulefotos()[b.getId()], b.x, b.y, b.width, b.height, null);
+			g.drawImage(oynaniyor.getKuleYoneticisi().getKulefotos()[b.getId()], b.x, b.y, b.width, b.height, null);
 			drawButtonFeedback(g, b);
 		}
 	}
@@ -105,10 +105,10 @@ public class AksiyonBari extends Bar {
 		
 		if (oynaniyor.isoyunDurdu()) {
 			g.setColor(Color.black);
-			g.drawString("Game is Paused!", 110, 790);
+			g.drawString("Oyun Duraklatıldı!", 110, 790);
 		}
 
-		
+
 		g.setColor(Color.black);
 		g.drawString("canlar: " + canlar, 110, 750);
 
@@ -126,7 +126,7 @@ public class AksiyonBari extends Bar {
 		
 		if (KuleFiyatiAltindanFazlaMi()) {
 			g.setColor(Color.RED);
-			g.drawString("Can't Afford", 270, 725);
+			g.drawString("Yetersiz Altın", 270, 725);
 
 		}
 
@@ -153,29 +153,29 @@ public class AksiyonBari extends Bar {
 		g.setColor(Color.black);
 		g.setFont(new Font("LucidaSans", Font.BOLD, 20));
 		drawDalgaZamanlayiciInfo(g);
-		drawDusmanlarSOLInfo(g);
-		drawWavesSOLInfo(g);
+		drawKalanDusmanBilgisi(g);
+		drawKalanDalgaBilgisi(g);
 
 	}
 
-	private void drawWavesSOLInfo(Graphics g) {
-		int current = oynaniyor.getWaveManager().getWaveIndex();
-		int Boyut = oynaniyor.getWaveManager().getWaves().size();
-		g.drawString("Wave " + (current + 1) + " / " + Boyut, 425, 770);
+	private void drawKalanDalgaBilgisi(Graphics g) {
+		int current = oynaniyor.getDalgaYoneticisi().getDalgaIndeksi();
+		int Boyut = oynaniyor.getDalgaYoneticisi().getDalgalar().size();
+		g.drawString("Dalga " + (current + 1) + " / " + Boyut, 425, 770);
 
 	}
 
-	private void drawDusmanlarSOLInfo(Graphics g) {
-		int remaining = oynaniyor.getdusmanManger().getAmountOfYasiyorDusmanlar();
-		g.drawString("Dusmanlar SOL: " + remaining, 425, 790);
+	private void drawKalanDusmanBilgisi(Graphics g) {
+		int remaining = oynaniyor.getDusmanYoneticisi().getYasiyorDusmanSayisi();
+		g.drawString("Kalan Dusman: " + remaining, 425, 790);
 	}
 
 	private void drawDalgaZamanlayiciInfo(Graphics g) {
-		if (oynaniyor.getWaveManager().isDalgaZamanlayiciBaslangiced()) {
+		if (oynaniyor.getDalgaYoneticisi().isDalgaZamanlayiciBasladiMi()) {
 
-			float timeSOL = oynaniyor.getWaveManager().getTimeSOL();
-			String formattedText = formatter.format(timeSOL);
-			g.drawString("Time SOL: " + formattedText, 425, 750);
+			float kalanSure = oynaniyor.getDalgaYoneticisi().getKalanSure();
+			String formattedText = formatter.format(kalanSure);
+			g.drawString("Kalan Sure: " + formattedText, 425, 750);
 		}
 	}
 
@@ -186,7 +186,7 @@ public class AksiyonBari extends Bar {
 			g.setColor(Color.black);
 			g.drawRect(410, 645, 220, 85);
 			g.drawRect(420, 650, 50, 50);
-			g.drawImage(oynaniyor.getKuleManager().getKulefotos()[gosterlimisKule.getKuleTipi()], 420, 650, 50, 50, null);
+			g.drawImage(oynaniyor.getKuleYoneticisi().getKulefotos()[gosterlimisKule.getKuleTipi()], 420, 650, 50, 50, null);
 			g.setFont(new Font("LucidaSans", Font.BOLD, 15));
 			g.drawString("" + Kuleler.GetIsim(gosterlimisKule.getKuleTipi()), 480, 660);
 			g.drawString("ID: " + gosterlimisKule.getId(), 480, 675);
@@ -205,10 +205,10 @@ public class AksiyonBari extends Bar {
 
 			if (satKule.isMouseOver()) {
 				g.setColor(Color.red);
-				g.drawString("sat for: " + getsatAmount(gosterlimisKule) + "g", 480, 695);
+				g.drawString("satis fiyati: " + getsatAmount(gosterlimisKule) + "g", 480, 695);
 			} else if (YukseltmeKule.isMouseOver() && altın >= getYukseltAmount(gosterlimisKule)) {
 				g.setColor(Color.blue);
-				g.drawString("Yukselt for: " + getYukseltAmount(gosterlimisKule) + "g", 480, 695);
+				g.drawString("yukseltme fiyati: " + getYukseltAmount(gosterlimisKule) + "g", 480, 695);
 			}
 
 		}
@@ -266,16 +266,16 @@ public class AksiyonBari extends Bar {
 		oynaniyor.setoyunDurdu(!oynaniyor.isoyunDurdu());
 
 		if (oynaniyor.isoyunDurdu())
-			bPause.setText("Unpause");
+			bDuraklat.setText("Devam Et");
 		else
-			bPause.setText("Pause");
+			bDuraklat.setText("Duraklat");
 
 	}
 
-	public void mouseClicked(int x, int y) {
+	public void mousePressed(int x, int y) {
 		if (bMenu.getSinirlar().contains(x, y))
 			SetOyunDurumu(MENU);
-		else if (bPause.getSinirlar().contains(x, y))
+		else if (bDuraklat.getSinirlar().contains(x, y))
 			togglePause();
 		else {
 
@@ -311,7 +311,7 @@ public class AksiyonBari extends Bar {
 
 	public void mouseMoved(int x, int y) {
 		bMenu.MouseUzerinde(false);
-		bPause.MouseUzerinde(false);
+		bDuraklat.MouseUzerinde(false);
 		KuleFiyatiGoster = false;
 		satKule.MouseUzerinde(false);
 		YukseltmeKule.MouseUzerinde(false);
@@ -321,8 +321,8 @@ public class AksiyonBari extends Bar {
 
 		if (bMenu.getSinirlar().contains(x, y))
 			bMenu.MouseUzerinde(true);
-		else if (bPause.getSinirlar().contains(x, y))
-			bPause.MouseUzerinde(true);
+		else if (bDuraklat.getSinirlar().contains(x, y))
+			bDuraklat.MouseUzerinde(true);
 		else {
 
 			if (gosterlimisKule != null) {
@@ -348,7 +348,7 @@ public class AksiyonBari extends Bar {
 	
 	public void mouseReleased(int x, int y) {
 		bMenu.SıfırlaBooleans();
-		bPause.SıfırlaBooleans();
+		bDuraklat.SıfırlaBooleans();
 		for (Buton b : KuleButonlar)
 			b.SıfırlaBooleans();
 		satKule.SıfırlaBooleans();

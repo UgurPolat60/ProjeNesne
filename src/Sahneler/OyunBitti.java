@@ -10,7 +10,7 @@ import static main.OyunIstatislikleri.*;
 
 public class OyunBitti extends OyunEkrani implements SahneMethotlari {
 
-	private Buton bReplay, bMenu;
+	private Buton bTekrarOyna, bMenu;
 
 	public OyunBitti(Game game) {
 		super(game);
@@ -23,18 +23,18 @@ public class OyunBitti extends OyunEkrani implements SahneMethotlari {
 		int x = 640 / 2 - w / 2;
 		int y = 300;
 		int yOffset = 100;
-		bMenu = new Buton("Menu", x, y, w, h);
-		bReplay = new Buton("Replay", x, y + yOffset, w, h);
+		bMenu = new Buton("Menü", x, y, w, h);
+		bTekrarOyna = new Buton("Tekrar Oyna", x, y + yOffset, w, h);
 	}
 
 	@Override
 	public void render(Graphics g) {
 		g.setFont(new Font("LucidaSans", Font.BOLD, 50));
 		g.setColor(Color.red);
-		g.drawString("Game Over!", 160, 80);
+		g.drawString("Oyun Bitti!", 160, 80);
 		g.setFont(new Font("LucidaSans", Font.BOLD, 20));
 		bMenu.draw(g);
-		bReplay.draw(g);
+		bTekrarOyna.draw(g);
 	}
 
 	private void OyunuBastanOyna() {
@@ -48,28 +48,23 @@ public class OyunBitti extends OyunEkrani implements SahneMethotlari {
 
 	@Override
 	public void mouseClicked(int x, int y) {
-		if (bMenu.getSinirlar().contains(x, y)) {
-			SetOyunDurumu(MENU);
-			SıfırlaAll();
-		} else if (bReplay.getSinirlar().contains(x, y))
-			OyunuBastanOyna();
 	}
 
 	@Override
 	public void mouseMoved(int x, int y) {
 		bMenu.MouseUzerinde(false);
-		bReplay.MouseUzerinde(false);
+		bTekrarOyna.MouseUzerinde(false);
 
 		if (bMenu.getSinirlar().contains(x, y))
 			bMenu.MouseUzerinde(true);
-		else if (bReplay.getSinirlar().contains(x, y))
-			bReplay.MouseUzerinde(true);
+		else if (bTekrarOyna.getSinirlar().contains(x, y))
+			bTekrarOyna.MouseUzerinde(true);
 	}
 
 	@Override
 	public void mouseReleased(int x, int y) {
 		bMenu.SıfırlaBooleans();
-		bReplay.SıfırlaBooleans();
+		bTekrarOyna.SıfırlaBooleans();
 
 	}
 
@@ -81,8 +76,11 @@ public class OyunBitti extends OyunEkrani implements SahneMethotlari {
 
 	@Override
 	public void mousePressed(int x, int y) {
-		// TODO Auto-generated method stub
-		
+		if (bMenu.getSinirlar().contains(x, y)) {
+			SetOyunDurumu(MENU);
+			SıfırlaAll();
+		} else if (bTekrarOyna.getSinirlar().contains(x, y))
+			OyunuBastanOyna();
 	}
 
 	@Override

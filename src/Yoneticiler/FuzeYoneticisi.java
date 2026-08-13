@@ -100,7 +100,7 @@ public class FuzeYoneticisi {
 	}
 
 	private void explodeOnDusmanlar(Fuze p) {
-		for (Dusman e : oynaniyor.getdusmanManger().getDusmanlar()) {
+		for (Dusman e : oynaniyor.getDusmanYoneticisi().getDusmanlar()) {
 			if (e.Yasiyormu()) {
 				float radius = 40.0f;
 
@@ -118,7 +118,7 @@ public class FuzeYoneticisi {
 	}
 
 	private boolean isProjHittingdusman(Fuze p) {
-		for (Dusman e : oynaniyor.getdusmanManger().getDusmanlar()) {
+		for (Dusman e : oynaniyor.getDusmanYoneticisi().getDusmanlar()) {
 			if (e.Yasiyormu())
 				if (e.getSinirlar().contains(p.getPos())) {
 					e.hasaraldi(p.getHasar());
